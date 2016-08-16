@@ -5,14 +5,17 @@
     var cols = [
         { id : "username", alias : "username", dataType : tableau.dataTypeEnum.string},
        	 {  id : "filter", alias : "filter", dataType : tableau.dataTypeEnum.string },
-       	 {  id : "count", alias : "count", dataType : tableau.dataTypeEnum.float },
+       	 {  id : "likes", alias : "likes", dataType : tableau.dataTypeEnum.float },
        	 {  id : "tags", alias : "tags", dataType : tableau.dataTypeEnum.string },
+       	 {  id : "created_time", alias : "created_time", dataType : tableau.dataTypeEnum.datetime },
+       	 {  id : "link", alias : "link", dataType : tableau.dataTypeEnum.datetime },
+       	 {  id : "location", alias : "location", dataType : tableau.dataTypeEnum.string },
        	 
     ];
 
     var tableInfo = {
         id : "instagramFeed",
-        alias : "Hashtag Foodporn",
+        alias : "Hashtag Feed",
         columns : cols
     };
 
@@ -31,11 +34,20 @@
 
         // Iterate over the JSON object
         for (var i = 0; i < feat.length; i++) {
+        	for (var ii = 0; ii < 5; ii++) {
+        		var date = new Date(parseInt(feat[i].created_time) * 1000);
+        		var dateFinal = date.getFullYear()+"-"+date.getDate()+"-"+ (date.getMonth()+1) +" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+        		//var d = new Date (dateFinal);
+        	}
+
             tableData.push({
                 "username": feat[i].user.username,
                 "filter": feat[i].filter,
-                "count": feat[i].likes.count,
-                "tags": feat[i].tags
+                "likes": feat[i].likes.count,
+                "tags": feat[i].tags,
+                "created_time": dateFinal,
+                "link": feat[i].link,
+                "location": feat[i].location
 
             });
         }
