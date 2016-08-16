@@ -8,7 +8,7 @@
        	 {  id : "likes", alias : "likes", dataType : tableau.dataTypeEnum.float },
        	 {  id : "tags", alias : "tags", dataType : tableau.dataTypeEnum.string },
        	 {  id : "created_time", alias : "created_time", dataType : tableau.dataTypeEnum.datetime },
-       	 {  id : "link", alias : "link", dataType : tableau.dataTypeEnum.datetime },
+       	 {  id : "link", alias : "link", dataType : tableau.dataTypeEnum.string },
        	 {  id : "location", alias : "location", dataType : tableau.dataTypeEnum.string },
        	 
     ];
@@ -36,7 +36,7 @@
         for (var i = 0; i < feat.length; i++) {
         	for (var ii = 0; ii < 5; ii++) {
         		var date = new Date(parseInt(feat[i].created_time) * 1000);
-        		var dateFinal = date.getFullYear()+"-"+date.getDate()+"-"+ (date.getMonth()+1) +" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+        		var dateFinal = date.getDate()+"/"+ (date.getMonth()+1) +"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
         		//var d = new Date (dateFinal);
         	}
 
