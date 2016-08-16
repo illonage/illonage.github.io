@@ -8,8 +8,10 @@
        	 {  id : "likes", alias : "likes", dataType : tableau.dataTypeEnum.float },
        	 {  id : "tags", alias : "tags", dataType : tableau.dataTypeEnum.string },
        	 {  id : "created_time", alias : "created_time", dataType : tableau.dataTypeEnum.datetime },
-       	 {  id : "link", alias : "link", dataType : tableau.dataTypeEnum.string },
+       	 {  id : "link", alias : "link", dataType : tableau.dataTypeEnum.strings },
        	 {  id : "location", alias : "location", dataType : tableau.dataTypeEnum.string },
+       	 { id : "lat", alias : "latitude", columnRole: "dimension", dataType : tableau.dataTypeEnum.float },
+         { id : "lon", alias : "longitude",columnRole: "dimension", dataType : tableau.dataTypeEnum.float }
        	 
     ];
 
@@ -39,6 +41,18 @@
         		var dateFinal = date.getDate()+"/"+ (date.getMonth()+1) +"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
         		//var d = new Date (dateFinal);
         	}
+        	if (feat[i].location && feat[i].location !== "null" && feat[i].location !== "undefined") {
+        		var location = 	feat[i].location["name"];
+        		var lon = feat[i].location.longitude;
+        		var lat = feat[i].location.latitude;
+        	}
+        	
+        	else
+        	{
+        		var location = 	"";
+        		var lon = "";
+        		var lat = "";
+        	}
 
             tableData.push({
                 "username": feat[i].user.username,
@@ -47,7 +61,10 @@
                 "tags": feat[i].tags,
                 "created_time": dateFinal,
                 "link": feat[i].link,
-                "location": feat[i].location
+                "location": location,
+                "lon": lon,
+                "lat": lat
+            
 
             });
         }
