@@ -8,7 +8,7 @@
        	 {  id : "likes", alias : "likes", dataType : tableau.dataTypeEnum.float },
        	 {  id : "tags", alias : "tags", dataType : tableau.dataTypeEnum.string },
        	 {  id : "created_time", alias : "created_time", dataType : tableau.dataTypeEnum.datetime },
-       	 {  id : "link", alias : "link", dataType : tableau.dataTypeEnum.strings },
+       	 {  id : "link", alias : "link", dataType : tableau.dataTypeEnum.string },
        	 {  id : "location", alias : "location", dataType : tableau.dataTypeEnum.string },
        	 { id : "lat", alias : "latitude", dataType : tableau.dataTypeEnum.float },
          { id : "lon", alias : "longitude", dataType : tableau.dataTypeEnum.float },
