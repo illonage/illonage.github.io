@@ -10,8 +10,8 @@
        	 {  id : "created_time", alias : "created_time", dataType : tableau.dataTypeEnum.datetime },
        	 {  id : "link", alias : "link", dataType : tableau.dataTypeEnum.strings },
        	 {  id : "location", alias : "location", dataType : tableau.dataTypeEnum.string },
-       	 { id : "lat", alias : "latitude", columnRole: "dimension", dataType : tableau.dataTypeEnum.float },
-         { id : "lon", alias : "longitude",columnRole: "dimension", dataType : tableau.dataTypeEnum.float }
+       	 { id : "lat", alias : "latitude", dataType : tableau.dataTypeEnum.float },
+         { id : "lon", alias : "longitude", dataType : tableau.dataTypeEnum.float },
        	 
     ];
 
@@ -46,7 +46,7 @@
         		var lon = feat[i].location.longitude;
         		var lat = feat[i].location.latitude;
         	}
-        	
+
         	else
         	{
         		var location = 	"";
