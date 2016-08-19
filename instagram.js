@@ -164,33 +164,33 @@
       var accessToken = tableau.password;
       var tickerSymbol = tableau.connectionData;
       var connectionUri = getHashtag(accessToken,tickerSymbol);
-      $.getJSON(connectionUri,function(resp) {
-          
-           tableau.log(resp);
-           
-          var feat = resp.data,
-           tableData = [];
-           
 
-        // Iterate over the JSON object
-        for (var i = 0; i < feat.length; i++) {
-          for (var ii = 0; ii < 5; ii++) {
-            var date = new Date(parseInt(feat[i].created_time) * 1000);
-            var dateFinal = date.getDate()+"/"+ (date.getMonth()+1) +"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+      var xhr = $.ajax({
+          url: connectionUri,
+          type: "GET",
+          crossDomain: true,
+          dataType: 'jsonp',
+          success: function (data) {
+            console.log(data);
+            var feat = data.data;
+            var tableData = [];
+                  for (var i = 0; i < feat.length; i++) {
+                    for (var ii = 0; ii < 5; ii++) {
+                      var date = new Date(parseInt(feat[i].created_time) * 1000);
+                      var dateFinal = date.getDate()+"/"+ (date.getMonth()+1) +"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
             //var d = new Date (dateFinal);
           }
-          if (feat[i].location && feat[i].location !== "null" && feat[i].location !== "undefined") {
-            var location =  feat[i].location["name"];
-            var lon = feat[i].location.longitude;
-            var lat = feat[i].location.latitude;
+              if (feat[i].location && feat[i].location !== "null" && feat[i].location !== "undefined") {
+                var location =  feat[i].location["name"];
+                var lon = feat[i].location.longitude;
+                var lat = feat[i].location.latitude;
           }
 
-          else
-          {
-            var location =  "";
-            var lon = "";
-            var lat = "";
-          }
+              else{
+                var location =  "";
+                var lon = "";
+                var lat = "";
+                  }
 
             tableData.push({
                 "username": feat[i].user.username,
@@ -209,7 +209,14 @@
 
         table.appendRows(tableData);
         doneCallback();
-    })
+             
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+              // WDC should do more granular error checking here
+              // or on the server side.  This is just a sample of new API.
+              tableau.abortForAuth("Invalid Access Token");
+          }
+      });
   };
 
   // Register the tableau connector, call this last
