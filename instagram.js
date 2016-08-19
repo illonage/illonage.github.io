@@ -9,7 +9,7 @@
   // to do a server-side OAuth flow and avoid this problem
   var config = {
       clientId: '021d6ed7e5604c33924542e62a3d0a2e',
-      redirectUri: 'http://localhost:8888/Insta/index.html',
+      redirectUri: 'https://illonage.github.io/',
       authUrl: 'https://api.instagram.com',
   };
 
