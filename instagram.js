@@ -58,7 +58,7 @@
                 "username": feat[i].user.username,
                 "filter": feat[i].filter,
                 "likes": feat[i].likes.count,
-                "tags": feat[i].tags,
+                "tags": feat[i].tags.toString(),
                 "created_time": dateFinal,
                 "link": feat[i].link,
                 "location": location,
