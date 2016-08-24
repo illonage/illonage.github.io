@@ -64,7 +64,7 @@
   // It appends the passed in accessToek to the call to personalize the call for the user
   function getHashtag(accessToken, tickerSymbol) {
       return "https://api.instagram.com/v1/tags/"+ tickerSymbol +"/media/recent?access_token=" +
-              accessToken;
+              accessToken +"&count=50";
   }
 
   // This function togglels the label shown depending
