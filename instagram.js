@@ -143,6 +143,7 @@
          {  id : "location", alias : "location", dataType : tableau.dataTypeEnum.string },
          { id : "lat", alias : "latitude", dataType : tableau.dataTypeEnum.float },
          { id : "lon", alias : "longitude", dataType : tableau.dataTypeEnum.float },
+         { id : "id", alias : "id", dataType : tableau.dataTypeEnum.string},
          
     ];
 
@@ -150,7 +151,7 @@
         id : "instagramFeed",
         alias : "Hashtag Feed",
         columns : cols,
-        incrementColumnId: "username"
+        incrementColumnId: "id"
     };
 
     schemaCallback([tableInfo]);
@@ -202,7 +203,8 @@
                 "link": feat[i].link,
                 "location": location,
                 "lon": lon,
-                "lat": lat
+                "lat": lat,
+                "id": feat[i].id
             
 
             });
