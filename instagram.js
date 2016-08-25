@@ -166,6 +166,7 @@
 
       var accessToken = tableau.password;
       var tickerSymbol = tableau.connectionData;
+      for(var j = 0; j<10;j++) {
       var connectionUri = getHashtag(accessToken,tickerSymbol);
 
       var xhr = $.ajax({
@@ -174,7 +175,7 @@
           crossDomain: true,
           dataType: 'jsonp',
           success: function (data) {
-            for(var j = 0; j<10;j++) {
+            
             lastId++;
             var id = lastId;
             var feat = data.data;
@@ -213,13 +214,14 @@
 
             });
           }
-        }
+        
 
         table.appendRows(tableData);
         doneCallback();
              
           },
       });
+    }
   };
 
   // Register the tableau connector, call this last
