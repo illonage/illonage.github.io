@@ -176,7 +176,7 @@
             dataType: 'jsonp',
           success: function (data) {
             var feat = data.data;
-            next_url = data.pagination.next_url;
+            var next_url = data.pagination.next_url;
             var tableData = [];
                   for (var i = 0; i < feat.length; i++) {
                     for (var ii = 0; ii < 5; ii++) {
