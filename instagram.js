@@ -206,8 +206,6 @@
                 "location": location,
                 "lon": lon,
                 "lat": lat,
-                "id": id,
-
             
 
             });
