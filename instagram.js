@@ -63,7 +63,7 @@
   // This helper function returns the URI for the venueLikes endpoint
   // It appends the passed in accessToek to the call to personalize the call for the user
   function getHashtag(accessToken, tickerSymbol) {
-      return "https://api.instagram.com/v1/tags/"+ tickerSymbol +"/media/recent?access_token=" +
+      return "https://api.instagram.com/v1/tags/"+ tickerSymbol +"/media/recent?count=100&access_token=" +
               accessToken;
   }
 
@@ -207,7 +207,7 @@
                 "location": location,
                 "lon": lon,
                 "lat": lat,
-                "id": id.
+                "id": id,
 
             
 
