@@ -158,12 +158,14 @@
   // This function acutally make the foursquare API call and
   // parses the results and passes them back to Tableau
   myConnector.getData = function(table, doneCallback) {
+      var max_tag_id = 0;
+      for(var i; i<10;i++){
       var dataToReturn = [];
       var hasMoreData = false;
 
       var accessToken = tableau.password;
       var tickerSymbol = tableau.connectionData;
-      var max_tag_id;
+      
       var connectionUri = getHashtag(accessToken,tickerSymbol,max_tag_id);
 
       var xhr = $.ajax({
@@ -211,6 +213,7 @@
 
         table.appendRows(tableData);
         doneCallback();
+      }
              
           },
           error: function (xhr, ajaxOptions, thrownError) {
