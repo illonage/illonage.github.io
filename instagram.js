@@ -62,9 +62,9 @@
   //------------- OAuth Helpers -------------//
   // This helper function returns the URI for the venueLikes endpoint
   // It appends the passed in accessToek to the call to personalize the call for the user
-  function getHashtag(accessToken, tickerSymbol) {
+  function getHashtag(accessToken, tickerSymbol,max_tag_id) {
       return "https://api.instagram.com/v1/tags/"+ tickerSymbol +"/media/recent?access_token=" +
-              accessToken +"&count=50";
+              accessToken +"&count=100&max_tag_id="max_tag_id;
   }
 
   // This function togglels the label shown depending
@@ -163,7 +163,8 @@
 
       var accessToken = tableau.password;
       var tickerSymbol = tableau.connectionData;
-      var connectionUri = getHashtag(accessToken,tickerSymbol);
+      var max_tag_id;
+      var connectionUri = getHashtag(accessToken,tickerSymbol,max_tag_id);
 
       var xhr = $.ajax({
           url: connectionUri,
@@ -173,6 +174,7 @@
           success: function (data) {
             console.log(data);
             var feat = data.data;
+            max_tag_id = feat[i].pagination.next_max_tag_id;
             var tableData = [];
                   for (var i = 0; i < feat.length; i++) {
                     for (var ii = 0; ii < 5; ii++) {
