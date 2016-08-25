@@ -166,9 +166,9 @@
       var accessToken = tableau.password;
       var tickerSymbol = tableau.connectionData;
       var connectionUri = getHashtag(accessToken,tickerSymbol,next_max_tag_id);
-      
+
       for (var i = 0; i < 10; i++) {
-        if(i != 0){
+        if(i > 0){
             connectionUri = next_url;
         }
           var xhr = $.ajax({
