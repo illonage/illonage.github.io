@@ -161,11 +161,14 @@
       var dataToReturn = [];
       var hasMoreData = false;
       var next_max_tag_id = 0;
-      for (var i = 0; i < 10; i++) {
+      
           var accessToken = tableau.password;
           var tickerSymbol = tableau.connectionData;
           var connectionUri = getHashtag(accessToken,tickerSymbol,next_max_tag_id);
-
+      for (var i = 0; i < 10; i++) {
+        if(i != 0){
+          connectionUri = next_url;
+        }
           var xhr = $.ajax({
             url: connectionUri,
             type: "GET",
@@ -173,7 +176,7 @@
             dataType: 'jsonp',
           success: function (data) {
             var feat = data.data;
-            next_max_tag_id = data.pagination.next_max_tag_id;
+            next_url = data.pagination.next_url;
             var tableData = [];
                   for (var i = 0; i < feat.length; i++) {
                     for (var ii = 0; ii < 5; ii++) {
