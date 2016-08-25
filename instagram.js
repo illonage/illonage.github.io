@@ -182,7 +182,7 @@
             for (var i = 0; i < feat.length; i++) {
                     for (var ii = 0; ii < 5; ii++) {
                       var date = new Date(parseInt(feat[i].created_time) * 1000);
-                      var dateFinal = date.getDate()+"/"+ (date.getMonth()+1) +"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+                      var dateFinal =  (date.getMonth()+1) +"/"+date.getDate()+"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
             //var d = new Date (dateFinal);
           }
               if (feat[i].location && feat[i].location !== "null" && feat[i].location !== "undefined") {
