@@ -151,7 +151,7 @@
         id : "instagramFeed",
         alias : "Hashtag Feed",
         columns : cols,
-        incrementColumnId: "id"
+        incrementColumnId: "created_time"
     };
 
     schemaCallback([tableInfo]);
@@ -174,6 +174,7 @@
           crossDomain: true,
           dataType: 'jsonp',
           success: function (data) {
+
             var feat = data.data;
             var tableData = [];
                   for (var i = 0; i < feat.length; i++) {
@@ -193,7 +194,7 @@
                 var lon = "";
                 var lat = "";
                   }
-
+            if (created_time > lastId) {      
             tableData.push({
                 "username": feat[i].user.username,
                 "filter": feat[i].filter,
@@ -204,10 +205,10 @@
                 "location": location,
                 "lon": lon,
                 "lat": lat,
-               
+
             
 
-            });
+            });}
         }
 
         table.appendRows(tableData);
