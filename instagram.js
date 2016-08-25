@@ -226,4 +226,4 @@
 
   // Register the tableau connector, call this last
   tableau.registerConnector(myConnector);
-})();
+}();
