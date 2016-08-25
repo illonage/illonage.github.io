@@ -176,8 +176,6 @@
           dataType: 'jsonp',
           success: function (data) {
            
-            lastId++;
-            var id = lastId;
             var feat = data.data;
             var tableData = [];
             for (var i = 0; i < feat.length; i++) {
