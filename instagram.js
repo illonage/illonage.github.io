@@ -62,9 +62,9 @@
   //------------- OAuth Helpers -------------//
   // This helper function returns the URI for the venueLikes endpoint
   // It appends the passed in accessToek to the call to personalize the call for the user
-  function getHashtag(accessToken, tickerSymbol,max_tag_id) {
+  function getHashtag(accessToken, tickerSymbol,next_max_tag_id) {
       return "https://api.instagram.com/v1/tags/"+ tickerSymbol +"/media/recent?access_token=" +
-              accessToken +"&count=100&max_tag_id="+max_tag_id;
+              accessToken+"&next_max_tag_id"=next_max_tag_id;
   }
 
   // This function togglels the label shown depending
@@ -158,15 +158,15 @@
   // This function acutally make the foursquare API call and
   // parses the results and passes them back to Tableau
   myConnector.getData = function(table, doneCallback) {
-      var max_tag_id = 0;
-      for(var i; i<10;i++){
       var dataToReturn = [];
       var hasMoreData = false;
+      var next_max_tag_id = 0;
+      for (var i = 0; i < 10; i++) {
+      
 
       var accessToken = tableau.password;
       var tickerSymbol = tableau.connectionData;
-      
-      var connectionUri = getHashtag(accessToken,tickerSymbol,max_tag_id);
+      var connectionUri = getHashtag(accessToken,tickerSymbol,next_max_tag_id);
 
       var xhr = $.ajax({
           url: connectionUri,
@@ -174,9 +174,8 @@
           crossDomain: true,
           dataType: 'jsonp',
           success: function (data) {
-            console.log(data);
             var feat = data.data;
-            max_tag_id = feat[i].pagination.next_max_tag_id;
+            next_max_tag_id = feat[i].pagination.next_max_tag_id;
             var tableData = [];
                   for (var i = 0; i < feat.length; i++) {
                     for (var ii = 0; ii < 5; ii++) {
@@ -213,7 +212,7 @@
 
         table.appendRows(tableData);
         doneCallback();
-      }
+
              
           },
           error: function (xhr, ajaxOptions, thrownError) {
@@ -222,8 +221,8 @@
               tableau.abortForAuth("Invalid Access Token");
           }
       });
-  };
+  };}
 
   // Register the tableau connector, call this last
   tableau.registerConnector(myConnector);
-}();
+})();
