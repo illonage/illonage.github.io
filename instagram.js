@@ -62,9 +62,9 @@
   //------------- OAuth Helpers -------------//
   // This helper function returns the URI for the venueLikes endpoint
   // It appends the passed in accessToek to the call to personalize the call for the user
-  function getHashtag(accessToken, tickerSymbol,next_max_tag_id) {
+  function getHashtag(accessToken, tickerSymbol) {
       return "https://api.instagram.com/v1/tags/"+ tickerSymbol +"/media/recent?access_token=" +
-              accessToken+"&max_tag_id="+next_max_tag_id+"&count=100";
+              accessToken;
   }
 
   // This function togglels the label shown depending
@@ -149,7 +149,8 @@
     var tableInfo = {
         id : "instagramFeed",
         alias : "Hashtag Feed",
-        columns : cols
+        columns : cols,
+        incrementColumnId: "id"
     };
 
     schemaCallback([tableInfo]);
@@ -158,27 +159,21 @@
   // This function acutally make the foursquare API call and
   // parses the results and passes them back to Tableau
   myConnector.getData = function(table, doneCallback) {
+      var lastId = parseInt(table.incrementValue || -1);
       var dataToReturn = [];
       var hasMoreData = false;
-      var next_max_tag_id = 0;
-      var next_url;
-      
+
       var accessToken = tableau.password;
       var tickerSymbol = tableau.connectionData;
-      var connectionUri = getHashtag(accessToken,tickerSymbol,next_max_tag_id);
+      var connectionUri = getHashtag(accessToken,tickerSymbol);
 
-      for (var i = 0; i < 10; i++) {
-        if(i > 0){
-            connectionUri = next_url;
-        }
-          var xhr = $.ajax({
-            url: connectionUri,
-            type: "GET",
-            crossDomain: true,
-            dataType: 'jsonp',
+      var xhr = $.ajax({
+          url: connectionUri,
+          type: "GET",
+          crossDomain: true,
+          dataType: 'jsonp',
           success: function (data) {
             var feat = data.data;
-            next_url = data.pagination.next_url;
             var tableData = [];
                   for (var i = 0; i < feat.length; i++) {
                     for (var ii = 0; ii < 5; ii++) {
@@ -215,7 +210,6 @@
 
         table.appendRows(tableData);
         doneCallback();
-
              
           },
           error: function (xhr, ajaxOptions, thrownError) {
@@ -224,7 +218,7 @@
               tableau.abortForAuth("Invalid Access Token");
           }
       });
-  };}
+  };
 
   // Register the tableau connector, call this last
   tableau.registerConnector(myConnector);
