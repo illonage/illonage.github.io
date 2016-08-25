@@ -64,7 +64,7 @@
   // It appends the passed in accessToek to the call to personalize the call for the user
   function getHashtag(accessToken, tickerSymbol,next_max_tag_id) {
       return "https://api.instagram.com/v1/tags/"+ tickerSymbol +"/media/recent?access_token=" +
-              accessToken+"&max_tag_id="+next_max_tag_id;
+              accessToken+"&max_tag_id="+next_max_tag_id+"count=100";
   }
 
   // This function togglels the label shown depending
@@ -162,17 +162,15 @@
       var hasMoreData = false;
       var next_max_tag_id = 0;
       for (var i = 0; i < 10; i++) {
-      
+          var accessToken = tableau.password;
+          var tickerSymbol = tableau.connectionData;
+          var connectionUri = getHashtag(accessToken,tickerSymbol,next_max_tag_id);
 
-      var accessToken = tableau.password;
-      var tickerSymbol = tableau.connectionData;
-      var connectionUri = getHashtag(accessToken,tickerSymbol,next_max_tag_id);
-
-      var xhr = $.ajax({
-          url: connectionUri,
-          type: "GET",
-          crossDomain: true,
-          dataType: 'jsonp',
+          var xhr = $.ajax({
+            url: connectionUri,
+            type: "GET",
+            crossDomain: true,
+            dataType: 'jsonp',
           success: function (data) {
             var feat = data.data;
             next_max_tag_id = data.pagination.next_max_tag_id;
