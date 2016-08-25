@@ -143,7 +143,7 @@
          {  id : "location", alias : "location", dataType : tableau.dataTypeEnum.string },
          { id : "lat", alias : "latitude", dataType : tableau.dataTypeEnum.float },
          { id : "lon", alias : "longitude", dataType : tableau.dataTypeEnum.float },
-         { id : "id", alias : "id", dataType : tableau.dataTypeEnum.string},
+
          
     ];
 
@@ -151,7 +151,6 @@
         id : "instagramFeed",
         alias : "Hashtag Feed",
         columns : cols,
-        incrementColumnId: "id"
     };
 
     schemaCallback([tableInfo]);
@@ -160,7 +159,7 @@
   // This function acutally make the foursquare API call and
   // parses the results and passes them back to Tableau
   myConnector.getData = function(table, doneCallback) {
-      var lastId = parseInt(table.incrementValue || -1);
+      //var lastId = parseInt(table.incrementValue || -1);
       var dataToReturn = [];
       var hasMoreData = false;
 
