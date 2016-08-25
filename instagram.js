@@ -174,7 +174,7 @@
           crossDomain: true,
           dataType: 'jsonp',
           success: function (data) {
-            if (var i;i<10;i++) {
+            if (var i = 0;i<10;i++) {
             lastId++;
             var id = lastId;
             var feat = data.data;
