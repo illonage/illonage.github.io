@@ -151,7 +151,7 @@
         id : "instagramFeed",
         alias : "Hashtag Feed",
         columns : cols,
-        incrementColumnId: "created_time"
+        incrementColumnId: "id"
     };
 
     schemaCallback([tableInfo]);
@@ -174,7 +174,9 @@
           crossDomain: true,
           dataType: 'jsonp',
           success: function (data) {
-
+            if (var i;i<10;i++) {
+            lastId++;
+            var id = lastId;
             var feat = data.data;
             var tableData = [];
                   for (var i = 0; i < feat.length; i++) {
@@ -194,7 +196,7 @@
                 var lon = "";
                 var lat = "";
                   }
-            if (dateFinal > lastId) {      
+
             tableData.push({
                 "username": feat[i].user.username,
                 "filter": feat[i].filter,
@@ -208,18 +210,14 @@
 
             
 
-            });}
+            });
+          }
         }
 
         table.appendRows(tableData);
         doneCallback();
              
           },
-          error: function (xhr, ajaxOptions, thrownError) {
-              // WDC should do more granular error checking here
-              // or on the server side.  This is just a sample of new API.
-              tableau.abortForAuth("Invalid Access Token");
-          }
       });
   };
 
