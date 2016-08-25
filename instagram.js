@@ -176,7 +176,7 @@
           crossDomain: true,
           dataType: 'jsonp',
           success: function (data) {
-            for(var j = 0; j<10;j++) {
+           
             lastId++;
             var id = lastId;
             var feat = data.data;
@@ -214,7 +214,7 @@
             
 
             });
-          }}
+          }
         
 
         table.appendRows(tableData);
