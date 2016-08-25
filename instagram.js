@@ -151,6 +151,7 @@
         id : "instagramFeed",
         alias : "Hashtag Feed",
         columns : cols,
+        incrementColumnId: "created_time"
     };
 
     schemaCallback([tableInfo]);
@@ -159,7 +160,7 @@
   // This function acutally make the foursquare API call and
   // parses the results and passes them back to Tableau
   myConnector.getData = function(table, doneCallback) {
-      //var lastId = parseInt(table.incrementValue || -1);
+      var lastId = parseInt(table.incrementValue || -1);
       var dataToReturn = [];
       var hasMoreData = false;
 
