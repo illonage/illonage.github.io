@@ -175,7 +175,7 @@
           dataType: 'jsonp',
           success: function (data) {
             var feat = data.data;
-            next_max_tag_id = feat[i].pagination.next_max_tag_id;
+            next_max_tag_id = data.pagination.next_max_tag_id;
             var tableData = [];
                   for (var i = 0; i < feat.length; i++) {
                     for (var ii = 0; ii < 5; ii++) {
