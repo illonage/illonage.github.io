@@ -204,7 +204,7 @@
                 "location": location,
                 "lon": lon,
                 "lat": lat,
-                "id": feat[i].id
+               
             
 
             });
