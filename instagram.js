@@ -150,7 +150,7 @@
         id : "instagramFeed",
         alias : "Hashtag Feed",
         columns : cols,
-        incrementColumnId: "id"
+        incrementColumnId: "username"
     };
 
     schemaCallback([tableInfo]);
