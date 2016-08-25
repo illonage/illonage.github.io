@@ -194,7 +194,7 @@
                 var lon = "";
                 var lat = "";
                   }
-            if (created_time > lastId) {      
+            if (dateFinal > lastId) {      
             tableData.push({
                 "username": feat[i].user.username,
                 "filter": feat[i].filter,
