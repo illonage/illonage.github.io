@@ -170,19 +170,18 @@
       var connectionUri = getHashtag(accessToken,tickerSymbol);
 
       var xhr = $.ajax({
-        for(var j = 0; j<10;j++) {
+        
           url: connectionUri,
           type: "GET",
           crossDomain: true,
           dataType: 'jsonp',
           success: function (data) {
-            
+            for(var j = 0; j<10;j++) {
             lastId++;
             var id = lastId;
             var feat = data.data;
             var tableData = [];
-                  for (var i = 0; i < feat.length; i++) {
-
+            for (var i = 0; i < feat.length; i++) {
                     for (var ii = 0; ii < 5; ii++) {
                       var date = new Date(parseInt(feat[i].created_time) * 1000);
                       var dateFinal = date.getDate()+"/"+ (date.getMonth()+1) +"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
@@ -215,14 +214,14 @@
             
 
             });
-          }
+          }}
         
 
         table.appendRows(tableData);
         doneCallback();
              
           },
-        }
+
       });
     
   };
