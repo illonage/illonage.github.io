@@ -143,6 +143,8 @@
          {  id : "location", alias : "location", dataType : tableau.dataTypeEnum.string },
          { id : "lat", alias : "latitude", dataType : tableau.dataTypeEnum.float },
          { id : "lon", alias : "longitude", dataType : tableau.dataTypeEnum.float },
+         { id : "nb_comments", alias : "nb_comments", dataType : tableau.dataTypeEnum.float },
+         { id : "text", alias : "text", dataType : tableau.dataTypeEnum.string },
 
          
     ];
@@ -198,9 +200,11 @@
                 "tags": feat[i].tags.toString(),
                 "created_time": dateFinal,
                 "link": feat[i].link,
+                "nb_comments": feat[i].comments.count,
                 "location": location,
                 "lon": lon,
                 "lat": lat,
+                "text": feat[i].caption.text,
             
 
             });
