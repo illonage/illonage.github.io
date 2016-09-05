@@ -230,6 +230,7 @@
   // This function acutally make the foursquare API call and
   // parses the results and passes them back to Tableau
   myConnector.getData = function(table, doneCallback) {
+      var lastId = parseInt(table.incrementValue || -1);
       var count = 1;
       getHistory(count, table, doneCallback);
     
