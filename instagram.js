@@ -156,11 +156,9 @@
 
     schemaCallback([tableInfo]);
   };
+   function getHistory(counter, table, doneCallback) {
 
-  // This function acutally make the foursquare API call and
-  // parses the results and passes them back to Tableau
-  myConnector.getData = function(table, doneCallback) {
-      var lastId = parseInt(table.incrementValue || -1);
+    var lastId = parseInt(table.incrementValue || -1);
       var dataToReturn = [];
       var hasMoreData = false;
 
@@ -214,11 +212,26 @@
         
 
         table.appendRows(tableData);
-        doneCallback();
+        counter++;
+        if(count < 50){
+          getHistory(counter, table, doneCallback);
+        }
+        else{
+          doneCallback();
+        }
+        
              
           },
 
       });
+
+
+   }
+  // This function acutally make the foursquare API call and
+  // parses the results and passes them back to Tableau
+  myConnector.getData = function(table, doneCallback) {
+      var counter = 1;
+      getHistory(counter, table, doneCallback);
     
   };
 
