@@ -156,16 +156,12 @@
 
     schemaCallback([tableInfo]);
   };
-   function getHistory(count, table, doneCallback) {
+   function getHistory(count, table, doneCallback,connectionUri ) {
 
-    var lastId = parseInt(table.incrementValue || -1);
+      var lastId = parseInt(table.incrementValue || -1);
       var dataToReturn = [];
       var hasMoreData = false;
 
-      var accessToken = tableau.password;
-      var tickerSymbol = tableau.connectionData;
-      
-      var connectionUri = getHashtag(accessToken,tickerSymbol);
 
       var xhr = $.ajax({
         
@@ -214,7 +210,8 @@
         table.appendRows(tableData);
         count++;
         if(count < 50){
-          getHistory(count, table, doneCallback);
+          connectionUri = data.pagination.next_url;
+          getHistory(count, table, doneCallback, connectionUri);
         }
         else{
           doneCallback();
@@ -231,8 +228,12 @@
   // parses the results and passes them back to Tableau
   myConnector.getData = function(table, doneCallback) {
       var lastId = parseInt(table.incrementValue || -1);
+      var accessToken = tableau.password;
+      var tickerSymbol = tableau.connectionData;
+      
+      var connectionUri = getHashtag(accessToken,tickerSymbol);
       var count = 1;
-      getHistory(count, table, doneCallback);
+      getHistory(count, table, doneCallback,connectionUri);
     
   };
 
