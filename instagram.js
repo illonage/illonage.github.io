@@ -214,7 +214,7 @@
         table.appendRows(tableData);
         count++;
         if(count < 50){
-          getHistory(counter, table, doneCallback);
+          getHistory(count, table, doneCallback);
         }
         else{
           doneCallback();
