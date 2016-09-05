@@ -176,7 +176,11 @@
            
             var feat = data.data;
             var tableData = [];
-            var nb_hashtags = feat[i].tags.length;
+            if(feat[i].tags){
+              var nb_hashtags = feat[i].tags.length;
+            }
+            else var nb_hashtags = 0;
+            
             for (var i = 0; i < feat.length; i++) {
                     for (var ii = 0; ii < 5; ii++) {
                       var date = new Date(parseInt(feat[i].created_time) * 1000);
