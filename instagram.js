@@ -145,6 +145,7 @@
          { id : "lon", alias : "longitude", dataType : tableau.dataTypeEnum.float },
          { id : "nb_comments", alias : "nb_comments", dataType : tableau.dataTypeEnum.float },
          { id : "text", alias : "text", dataType : tableau.dataTypeEnum.string },
+         { id : "nb_hashtags", alias : "nb_hashtags", dataType : tableau.dataTypeEnum.float },
 
          
     ];
@@ -175,6 +176,7 @@
            
             var feat = data.data;
             var tableData = [];
+            var nb_hashtags = feat[i].tags.length;
             for (var i = 0; i < feat.length; i++) {
                     for (var ii = 0; ii < 5; ii++) {
                       var date = new Date(parseInt(feat[i].created_time) * 1000);
@@ -210,6 +212,7 @@
                 "lon": lon,
                 "lat": lat,
                 "text": text,
+                "nb_hashtags":nb_hashtags,
             
 
             });
