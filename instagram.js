@@ -181,8 +181,8 @@
                       var dateFinal =  (date.getMonth()+1) +"/"+date.getDate()+"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
             //var d = new Date (dateFinal);
           }
-              if (feat[i].caption.text) {
-                var text = feat[i].caption.text;
+              if (feat[i].caption.text.toString()) {
+                var text = feat[i].caption.text.toString();
               }
               else var text = " ";
 
