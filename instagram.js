@@ -181,7 +181,7 @@
                       var dateFinal =  (date.getMonth()+1) +"/"+date.getDate()+"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
             //var d = new Date (dateFinal);
           }
-              if (data.caption.text && data.caption.text !== "null" && data.caption.text !== "undefined") {
+              if (feat[i].caption.text !== "null") {
                 var text = feat[i].caption.text;
               }
               else var text = " ";
@@ -209,7 +209,7 @@
                 "location": location,
                 "lon": lon,
                 "lat": lat,
-                "text": text,
+                "text": feat[i].caption.text.toString(),
             
 
             });
