@@ -182,7 +182,7 @@
             //var d = new Date (dateFinal);
           }
               if (feat[i].caption.text) {
-                var text = feat[i].caption.text;
+                var text = feat[i].caption;
               }
               else var text = " ";
 
