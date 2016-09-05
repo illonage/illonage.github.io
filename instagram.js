@@ -181,6 +181,11 @@
                       var dateFinal =  (date.getMonth()+1) +"/"+date.getDate()+"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
             //var d = new Date (dateFinal);
           }
+              if (feat[i].caption.text && feat[i].caption.text !== "null" && feat[i].caption.text !== "undefined") {
+                var text = feat[i].caption.text;
+              }
+              else var text = " ";
+
               if (feat[i].location && feat[i].location !== "null" && feat[i].location !== "undefined") {
                 var location =  feat[i].location["name"];
                 var lon = feat[i].location.longitude;
@@ -204,7 +209,7 @@
                 "location": location,
                 "lon": lon,
                 "lat": lat,
-                "text": feat[i].caption.text.toString(),
+                "text": text,
             
 
             });
