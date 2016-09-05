@@ -55,7 +55,7 @@
       }
 
       var url = config.authUrl + '/oauth/authorize/?client_id=' + appId +
-              '&redirect_uri=' + config.redirectUri +'&response_type=token';
+              '&redirect_uri=' + config.redirectUri +'&response_type=token&scope=public_content';
       window.location.href = url;
   }
 
