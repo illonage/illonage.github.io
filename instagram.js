@@ -177,6 +177,7 @@
             var feat = data.data;
             var tableData = [];
             if(feat[i].tags){
+              var hashatg = feat[i].tags;
               var nb_hashtags = feat[i].tags.length;
             }
             else var nb_hashtags = 0;
