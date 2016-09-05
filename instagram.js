@@ -204,7 +204,7 @@
                 "location": location,
                 "lon": lon,
                 "lat": lat,
-                "text": data.caption.text,
+                "text": feat[i].caption.text.toString(),
             
 
             });
