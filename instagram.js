@@ -220,7 +220,7 @@
 
         table.appendRows(tableData);
         count++;
-        if(count < 100){
+        if(count < 250){
           connectionUri = data.pagination.next_url;
           getHistory(count, table, doneCallback, connectionUri);
         }
