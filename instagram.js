@@ -11,6 +11,7 @@
       clientId: '021d6ed7e5604c33924542e62a3d0a2e',
       redirectUri: 'https://illonage.github.io/',
       authUrl: 'https://api.instagram.com',
+      max_iteration: 50,
   };
 
   // Called when web page first loads and when
@@ -19,16 +20,14 @@
   // This function parses the access token in the URI if available
   // It also adds a link to the foursquare connect button
   $(document).ready(function() {
+
+      //script to get the access Token
       if((window.location.href).indexOf('#') != -1) {
         var queryString = (window.location.href).substr((window.location.href).indexOf('?') + 1); 
         var value = (queryString.split('='))[1];
+        var accessToken = decodeURIComponent(value);
+      }
 
-    // "value" will now contain fdasdas%20ad%20asd%20ad%20asdas
-
-          var accessToken = decodeURIComponent(value);
-
-    // "value" will now contain fdasdas ad asd ad asdas (unescaped value)
-}
       var hasAuth = accessToken && accessToken.length > 0;
       updateUIWithAuthState(hasAuth);
 
@@ -37,9 +36,10 @@
       });
 
       $("#submitButton").click(function() {
-          var tickerSymbol = $('#ticker').val().trim();
-          tableau.connectionData = tickerSymbol;
-          tableau.connectionName = "Results for " + tickerSymbol;
+          var type = document.getElementById('gg').textContent;
+          var variable = $('#ticker').val().trim();
+          tableau.connectionData = JSON.stringify({'type':type,'variable': variable});
+          tableau.connectionName = "Results for " + type +" "+ variable;
           tableau.submit();
       });
   });
@@ -63,12 +63,21 @@
   // This helper function returns the URI for the venueLikes endpoint
   // It appends the passed in accessToek to the call to personalize the call for the user
   function getHashtag(accessToken, tickerSymbol) {
-      return "https://api.instagram.com/v1/tags/"+ tickerSymbol +"/media/recent?count=50&access_token=" +
+    
+      return "https://api.instagram.com/v1/tags/"+ tickerSymbol +"/media/recent?count=5&access_token=" +
               accessToken;
   }
 
-  // This function togglels the label shown depending
-  // on whether or not the user has been authenticated
+
+  function getUser(accessToken, tickerSymbol) {
+      
+     return "https://api.instagram.com/v1/users/search?q="+ tickerSymbol +"&access_token=" +
+              accessToken;
+
+  }
+
+
+
   function updateUIWithAuthState(hasAuth) {
       if (hasAuth) {
           $(".notsignedin").css('display', 'none');
@@ -102,14 +111,9 @@
        if((window.location.href).indexOf('#') != -1) {
         var queryString = (window.location.href).substr((window.location.href).indexOf('?') + 1); 
         var value = (queryString.split('='))[1];
-
-    // "value" will now contain fdasdas%20ad%20asd%20ad%20asdas
-
-    var accessToken = decodeURIComponent(value);
-
-    // "value" will now contain fdasdas ad asd ad asdas (unescaped value)
-}
-      console.log("Access token is '" + accessToken + "'");
+        var accessToken = decodeURIComponent(value);
+      }
+      
       var hasAuth = (accessToken && accessToken.length > 0) || tableau.password.length > 0;
       updateUIWithAuthState(hasAuth);
 
@@ -131,40 +135,43 @@
       }
   };
 
-  // Declare the data to Tableau that we are returning from Foursquare
   myConnector.getSchema = function(schemaCallback) {
       var cols = [
         { id : "username", alias : "username", dataType : tableau.dataTypeEnum.string},
          {  id : "filter", alias : "filter", dataType : tableau.dataTypeEnum.string },
-         {  id : "likes", alias : "likes", dataType : tableau.dataTypeEnum.float },
+         {  id : "likes", alias : "Number of likes", dataType : tableau.dataTypeEnum.float },
          {  id : "tags", alias : "tags", dataType : tableau.dataTypeEnum.string },
-         {  id : "created_time", alias : "created_time", dataType : tableau.dataTypeEnum.datetime },
-         {  id : "link", alias : "link", dataType : tableau.dataTypeEnum.string },
+         {  id : "created_time", alias : "Created Time", dataType : tableau.dataTypeEnum.datetime },
+         {  id : "link", alias : "Link", dataType : tableau.dataTypeEnum.string },
          {  id : "location", alias : "location", dataType : tableau.dataTypeEnum.string },
          { id : "lat", alias : "latitude", dataType : tableau.dataTypeEnum.float },
          { id : "lon", alias : "longitude", dataType : tableau.dataTypeEnum.float },
-         { id : "nb_comments", alias : "nb_comments", dataType : tableau.dataTypeEnum.float },
-         { id : "text", alias : "text", dataType : tableau.dataTypeEnum.string },
+         { id : "nb_comments", alias : "number of Comments", dataType : tableau.dataTypeEnum.float },
+         { id : "text", alias : "Text", dataType : tableau.dataTypeEnum.string },
+         { id : "image_url", alias : "Image URL", dataType : tableau.dataTypeEnum.string },
 
          
     ];
 
     var tableInfo = {
         id : "instagramFeed",
-        alias : "Hashtag Feed",
-        columns : cols,
-        incrementColumnId: "created_time"
+        alias : "Instagram Feed",
+        columns : cols
     };
 
     schemaCallback([tableInfo]);
   };
-   function getHistory(count, table, doneCallback,connectionUri ) {
 
-      var lastId = parseInt(table.incrementValue || -1);
+  function getHistory(table, doneCallback,connectionUri,count ) {
       var dataToReturn = [];
       var hasMoreData = false;
+      var new_url = connectionUri;
+      if (count == 0) {
+        var iteration = count;
+      }
+      
 
-
+      var getPage= function(connectionUri){
       var xhr = $.ajax({
         
           url: connectionUri,
@@ -172,12 +179,10 @@
           crossDomain: true,
           dataType: 'jsonp',
           success: function (data) {
-           
             var feat = data.data;
             var tableData = [];
-          
-            
             for (var i = 0; i < feat.length; i++) {
+              
                     for (var ii = 0; ii < 5; ii++) {
                       var date = new Date(parseInt(feat[i].created_time) * 1000);
                       var dateFinal =  (date.getMonth()+1) +"/"+date.getDate()+"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
@@ -212,21 +217,24 @@
                 "lon": lon,
                 "lat": lat,
                 "text": text,
+                "image_url": feat[i].images.low_resolution.url,
             
 
             });
           }
         
 
-        table.appendRows(tableData);
-        count++;
-        if(count < 20){
-          connectionUri = data.pagination.next_url;
-          getHistory(count, table, doneCallback, connectionUri);
-        }
-        else{
-          doneCallback();
-        }
+
+
+         connectionUri = data.pagination.next_url;
+         table.appendRows(tableData);
+          if (connectionUri && iteration < config.max_iteration) {
+            iteration++;
+            getPage(connectionUri);
+          }
+          else{
+            doneCallback();
+          } 
         
              
           },
@@ -235,16 +243,134 @@
 
 
    }
+    getPage(new_url)
+ }
+
+   function getUserID(username,accessToken,cb){
+      var xhr = $.ajax({
+          url: getUser(accessToken, username) ,
+
+          type: "GET",
+          crossDomain: true,
+          dataType: 'jsonp',
+
+          success: function (data) {
+            
+              var user_id = data.data[0].id;
+              cb(user_id);
+      
+            }
+
+          })
+
+
+   }
+
+   function getHistoryWithUserID(user_id, table, doneCallback,connectionUri,accessToken,count){
+
+      var dataToReturn = [];
+      var hasMoreData = false;
+      var new_url = "https://api.instagram.com/v1/users/"+user_id+"/media/recent/?access_token="+accessToken;
+      if (count == 0) {
+        var iteration = count;
+      }
+
+      
+      var getPage = function(url){
+      var xhr = $.ajax({
+          url: url,
+          type: "GET",
+          crossDomain: true,
+          dataType: 'jsonp',
+          success: function (data2) {
+            var feat = data2.data;
+            var tableData = [];
+            for (var i = 0; i < feat.length; i++) {
+              for (var ii = 0; ii < 5; ii++) {
+                var date = new Date(parseInt(feat[i].created_time) * 1000);
+                var dateFinal =  (date.getMonth()+1) +"/"+date.getDate()+"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+              }
+            if (feat[i].caption ) {
+              var text = feat[i].caption.text.toString();
+            }
+            else var text = " ";
+            if (feat[i].location && feat[i].location !== "null" && feat[i].location !== "undefined") {
+              var location =  feat[i].location["name"];
+              var lon = feat[i].location.longitude;
+              var lat = feat[i].location.latitude;
+            }
+
+            else{
+                var location =  "";
+                var lon = "";
+                var lat = "";
+            }
+
+            tableData.push({
+              "username": feat[i].user.username,
+              "filter": feat[i].filter,
+              "likes": feat[i].likes.count,
+              "tags": feat[i].tags.toString(),
+              "created_time": dateFinal,
+              "link": feat[i].link,
+              "nb_comments": feat[i].comments.count,
+              "location": location,
+              "lon": lon,
+              "lat": lat,
+              "text": text,
+              "image_url": feat[i].images.low_resolution.url,
+            });
+          }
+         
+          connectionUri = data2.pagination.next_url;
+          table.appendRows(tableData);
+          count++;
+          if (connectionUri &&  iteration < config.max_iteration) {
+            iteration++;
+            getPage(connectionUri,count);
+          }
+          else{
+            doneCallback();
+          }    
+        },
+      });
+    }
+   getPage(new_url)
+  }
+
+   function getHistory3(username, table, doneCallback,connectionUri,accessToken,count){
+    
+      getUserID(username,accessToken,function(user_id){
+              getHistoryWithUserID(user_id, table, doneCallback,connectionUri,accessToken,count)
+      }    )
+
+   }
+
+
+  
   // This function acutally make the foursquare API call and
   // parses the results and passes them back to Tableau
   myConnector.getData = function(table, doneCallback) {
       var lastId = parseInt(table.incrementValue || -1);
       var accessToken = tableau.password;
-      var tickerSymbol = tableau.connectionData;
+
+      var variable = JSON.parse(tableau.connectionData).variable;
+      var type = JSON.parse(tableau.connectionData).type;
       
-      var connectionUri = getHashtag(accessToken,tickerSymbol);
-      var count = 1;
-      getHistory(count, table, doneCallback,connectionUri);
+      if (type == "Hashtag"){
+        
+        var connectionUri = getHashtag(accessToken,variable);
+        var count = 0;
+        getHistory(table, doneCallback,connectionUri, count);
+      }
+      else{
+        
+        var connectionUri = getUser(accessToken,variable);
+        var count = 0;
+        getHistory3(variable, table, doneCallback,connectionUri,accessToken,count);
+
+      }
+      
     
   };
 
