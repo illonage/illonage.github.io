@@ -11,7 +11,7 @@
       clientId: '021d6ed7e5604c33924542e62a3d0a2e',
       redirectUri: 'https://illonage.github.io/',
       authUrl: 'https://api.instagram.com',
-      max_iteration: 50,
+      max_iteration: 20,
   };
 
   // Called when web page first loads and when
@@ -182,12 +182,18 @@
             var feat = data.data;
             var tableData = [];
             for (var i = 0; i < feat.length; i++) {
-              
-                    for (var ii = 0; ii < 5; ii++) {
                       var date = new Date(parseInt(feat[i].created_time) * 1000);
-                      var dateFinal =  (date.getMonth()+1) +"/"+date.getDate()+"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
+              // Hours part from the timestamp
+              //var hours = date.getHours();
+                      // Minutes part from the timestamp
+                      //var minutes = date.getMinutes();
+                      // Seconds part from the timestamp
+                      //var seconds = date.getSeconds();
+
+              //var dateFinal =  (date.getMonth()+1) +"/"+date.getDate()+"/"+ date.getFullYear()+" "+hours+":"+"0" +minutes+":"+"0" + date.getSeconds();
+                      
             //var d = new Date (dateFinal);
-          }
+          
               if (feat[i].caption ) {
                 var text = feat[i].caption.text.toString();
               }
@@ -210,7 +216,7 @@
                 "filter": feat[i].filter,
                 "likes": feat[i].likes.count,
                 "tags": feat[i].tags.toString(),
-                "created_time": dateFinal,
+                "created_time": date,
                 "link": feat[i].link,
                 "nb_comments": feat[i].comments.count,
                 "location": location,
@@ -228,7 +234,7 @@
 
          connectionUri = data.pagination.next_url;
          table.appendRows(tableData);
-          if (connectionUri && iteration < config.max_iteration) {
+          if (connectionUri && iteration < 50) {
             iteration++;
             getPage(connectionUri);
           }
@@ -285,11 +291,9 @@
           success: function (data2) {
             var feat = data2.data;
             var tableData = [];
+
             for (var i = 0; i < feat.length; i++) {
-              for (var ii = 0; ii < 5; ii++) {
-                var date = new Date(parseInt(feat[i].created_time) * 1000);
-                var dateFinal =  (date.getMonth()+1) +"/"+date.getDate()+"/"+ date.getFullYear()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
-              }
+              var date = new Date(parseInt(feat[i].created_time) * 1000);
             if (feat[i].caption ) {
               var text = feat[i].caption.text.toString();
             }
@@ -311,7 +315,7 @@
               "filter": feat[i].filter,
               "likes": feat[i].likes.count,
               "tags": feat[i].tags.toString(),
-              "created_time": dateFinal,
+              "created_time": date,
               "link": feat[i].link,
               "nb_comments": feat[i].comments.count,
               "location": location,
@@ -324,11 +328,9 @@
          
           connectionUri = data2.pagination.next_url;
           table.appendRows(tableData);
-          count++;
-          if (connectionUri &&  iteration < config.max_iteration) {
+          if (connectionUri &&  iteration < 20) {
             iteration++;
             getPage(connectionUri,count);
-          }
           else{
             doneCallback();
           }    
