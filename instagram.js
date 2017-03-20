@@ -291,7 +291,6 @@
           success: function (data2) {
             var feat = data2.data;
             var tableData = [];
-
             for (var i = 0; i < feat.length; i++) {
               var date = new Date(parseInt(feat[i].created_time) * 1000);
             if (feat[i].caption ) {
@@ -331,6 +330,7 @@
           if (connectionUri &&  iteration < 20) {
             iteration++;
             getPage(connectionUri,count);
+          }
           else{
             doneCallback();
           }    
