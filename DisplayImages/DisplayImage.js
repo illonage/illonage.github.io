@@ -99,7 +99,7 @@
          console.log(rowData);
 
          for(var i =0; i<rowData.length;i++){
-         if (rowData[i].includes("https")){
+         if (rowData[i].includes("http")){
             return (rowData[i]);
          }}
 
