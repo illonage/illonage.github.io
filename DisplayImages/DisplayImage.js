@@ -96,21 +96,29 @@
          const rowData = row.map(function (cell) {
           return cell.formattedValue;
         });
-         console.log(rowData);
 
          for(var i =0; i<rowData.length;i++){
-         if (rowData[i].includes("http")){
-            return (rowData[i]);
-         }}
+            if (rowData[i].includes("http")){
+              return (rowData[i]);
+            }
+          }
 
         ;
       });
 
+      const name = worksheetData.data.map(function (row) {
+         const rowData = row.map(function (cell) {
+          return cell.formattedValue;
+        });
+        
+          return (rowData[0]);
+
+      });
 
       
 
       // Populate the data table with the rows and columns we just pulled out
-      displayURL(data);
+      displayURL(data,name);
 
 
     });
@@ -130,14 +138,17 @@
   }
 
 
-  function displayURL(URL){
+  function displayURL(URL,name){
     $('#selected_marks').empty();
-    var str = URL+" "
+    var str = URL+" ";
+    var names = name +" ";
+    var tableNames = names.split(",");
     var tableImages = str.split(",");
-    for (var i = 0; i < tableImages.length; i++) { 
-     const image = $(`<img src="
-      ${tableImages[i]}
-    ">`);
+    console.log(tableNames);
+    for (var i = 0; i < tableImages.length; i++) {
+     const image = $(`<center><img src="
+      ${tableImages[i]}"width="15%" height="15%"></center>`);
+
      $('#selected_marks').append(image);
    }
 
