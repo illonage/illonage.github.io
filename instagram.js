@@ -36,8 +36,14 @@
       });
 
       $("#submitButton").click(function() {
+        if (document.getElementById('gg') !== null && document.getElementById('gg')  !== '') {
           var type = document.getElementById('gg').textContent;
           var variable = $('#ticker').val().trim();
+        }
+        else{ var type = "empty";
+        var variable = "empty";}
+          //var type = document.getElementById('gg').textContent;
+          
           tableau.connectionData = JSON.stringify({'type':type,'variable': variable});
           tableau.connectionName = "Results for " + type +" "+ variable;
           tableau.submit();
@@ -234,7 +240,7 @@
 
          connectionUri = data.pagination.next_url;
          table.appendRows(tableData);
-          if (connectionUri && iteration < 50) {
+          if (connectionUri && iteration < 1000) {
             iteration++;
             getPage(connectionUri);
           }
@@ -252,31 +258,31 @@
     getPage(new_url)
  }
 
-   function getUserID(username,accessToken,cb){
-      var xhr = $.ajax({
-          url: getUser(accessToken, username) ,
+   // function getUserID(username,accessToken,cb){
+   //    var xhr = $.ajax({
+   //        url: getUser(accessToken, username) ,
 
-          type: "GET",
-          crossDomain: true,
-          dataType: 'jsonp',
+   //        type: "GET",
+   //        crossDomain: true,
+   //        dataType: 'jsonp',
 
-          success: function (data) {
+   //        success: function (data) {
             
-              var user_id = data.data[0].id;
-              cb(user_id);
+   //            var user_id = data.data[0].id;
+   //            cb(user_id);
       
-            }
+   //          }
 
-          })
+   //        })
 
 
-   }
+   // }
 
-   function getHistoryWithUserID(user_id, table, doneCallback,connectionUri,accessToken,count){
+   function getHistoryWithUserID(table, doneCallback,connectionUri,accessToken,count){
 
       var dataToReturn = [];
       var hasMoreData = false;
-      var new_url = "https://api.instagram.com/v1/users/"+user_id+"/media/recent/?access_token="+accessToken;
+      var new_url = "https://api.instagram.com/v1/users/self/media/recent/?access_token="+accessToken;
       if (count == 0) {
         var iteration = count;
       }
@@ -342,9 +348,9 @@
 
    function getHistory3(username, table, doneCallback,connectionUri,accessToken,count){
     
-      getUserID(username,accessToken,function(user_id){
-              getHistoryWithUserID(user_id, table, doneCallback,connectionUri,accessToken,count)
-      }    )
+
+      getHistoryWithUserID(table, doneCallback,connectionUri,accessToken,count)
+      
 
    }
 
@@ -356,11 +362,12 @@
       var lastId = parseInt(table.incrementValue || -1);
       var accessToken = tableau.password;
 
-      var variable = JSON.parse(tableau.connectionData).variable;
+      //var variable = JSON.parse(tableau.connectionData).variable;
       var type = JSON.parse(tableau.connectionData).type;
       
       if (type == "Hashtag"){
-        
+
+        var variable = JSON.parse(tableau.connectionData).variable;
         var connectionUri = getHashtag(accessToken,variable);
         var count = 0;
         getHistory(table, doneCallback,connectionUri, count);
@@ -369,7 +376,7 @@
         
         var connectionUri = getUser(accessToken,variable);
         var count = 0;
-        getHistory3(variable, table, doneCallback,connectionUri,accessToken,count);
+        getHistoryWithUserID(table, doneCallback,connectionUri,accessToken,count);
 
       }
       

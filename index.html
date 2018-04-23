@@ -23,8 +23,8 @@
     <script type="text/javascript">
       function showText(name){
             
-            if(name=='hashtag')document.getElementById('div1').innerHTML='<div id="gg">Hashtag</div><input type="text" id="ticker" /></br>'
-            else document.getElementById('div1').innerHTML='<div id="gg">User</div><input type="text" id="ticker" /></br></br>';
+            if(name=='hashtag')document.getElementById('div1').innerHTML='<div id="gg">Hashtag</div><input type="text" id="ticker" /></br><p>No need to add a #</p>'
+            else document.getElementById('div1').innerHTML='<p> </p>';
         }
 
     </script>
@@ -36,9 +36,8 @@
         <select name "option" id="option" onchange="showText(this.value)">
         <option selected="selected">Please select one option ...</option>
           <option value="hashtag">Hashtag</option>
-          <option value="user">User</option>
+          <option value="user">Get the data from your account</option>
         </select>
-        <p class="signedin">You don't need to add a symbol ('#' or '@')</p>
         <div id="div1"></div></br><p class="signedin"><a href="#" class="btn btn-primary btn-block" id="submitButton"><span class="glyphicon glyphicon-arrow-down"></span> Get Data</a>
 
         </p>
