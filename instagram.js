@@ -240,7 +240,7 @@
 
          connectionUri = data.pagination.next_url;
          table.appendRows(tableData);
-          if (connectionUri && iteration < 1000) {
+          if (connectionUri && iteration < 20) {
             iteration++;
             getPage(connectionUri);
           }
