@@ -7,7 +7,15 @@
     // Tell Tableau we'd like to initialize our extension
     tableau.extensions.initializeAsync().then(function () {
       // Once the extensions is initialized, ask the user to choose a sheet
-      showChooseSheetDialog();
+      const savedSheetName = tableau.extensions.settings.get('sheet');
+      const savedFieldName = tableau.extensions.settings.get('field');
+      if (savedSheetName && savedFieldName) {
+        returnURL(savedSheetName,savedFieldName);
+      }
+      else {
+        showChooseSheetDialog();
+      }
+      
       initializeButtons ();
       //showImage();
     });
@@ -26,6 +34,7 @@
     const textFormat2 = $('<h4><font color="white">Select your sheet with the URL of the image</font></h4>');
     $('#choose_sheet_buttons').append(textFormat2);
     const worksheets = tableau.extensions.dashboardContent.dashboard.worksheets;
+
     worksheets.forEach(function (worksheet) {
       // Declare our new button which contains the sheet name
       const button = createButton(worksheet.name);
@@ -34,10 +43,13 @@
       button.click(function () {
         // Get the worksheet name which was selected
         const worksheetName = worksheet.name;
-
+        tableau.extensions.settings.set('sheet', worksheetName);
         // Close the dialog and show the data table for this worksheet
-        $('#choose_sheet_dialog').modal('toggle');
-        showChooseSelectionDialog(worksheetName);
+        tableau.extensions.settings.saveAsync().then(function () {
+          $('#choose_sheet_dialog').modal('toggle');
+          showChooseSelectionDialog(worksheetName);
+        });
+        
         
       });
 
@@ -52,6 +64,7 @@
 
    function showChooseSelectionDialog(worksheetName){
     const worksheet = getSelectedSheet(worksheetName);
+
     const text = "Select the URL of the image to display";
     const textFormat = $('<h4><font color="white">Select the field that indicated the URL of the image to display</font></h4>');
     
@@ -64,9 +77,11 @@
         const button2 = createButton(name.fieldName);
         button2.click(function () {
           const fieldName = name.fieldName;
-          $('#choose_image_dialog').modal('toggle');
-          returnURL(worksheetName,fieldName);
-        
+          tableau.extensions.settings.set('field', worksheetName);
+          tableau.extensions.settings.saveAsync().then(function () {
+            $('#choose_image_dialog').modal('toggle');
+            returnURL(worksheetName,fieldName);
+            });
         });
 
         $('#choose_image_buttons').append(button2);
