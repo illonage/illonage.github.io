@@ -77,7 +77,7 @@
         const button2 = createButton(name.fieldName);
         button2.click(function () {
           const fieldName = name.fieldName;
-          tableau.extensions.settings.set('field', worksheetName);
+          tableau.extensions.settings.set('field', fieldName);
           tableau.extensions.settings.saveAsync().then(function () {
             $('#choose_image_dialog').modal('toggle');
             returnURL(worksheetName,fieldName);
