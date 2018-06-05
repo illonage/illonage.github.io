@@ -24,7 +24,7 @@
 
     if (navigator.geolocation) {
         console.log('test');
-        navigator.geolocation.watchPosition(showPosition, error,{timeout:5000});
+        navigator.geolocation.getCurrentPosition(showPosition, error,{timeout:5000});
     } else {
         console.log("Geolocation is not supported by this browser.");
     }
