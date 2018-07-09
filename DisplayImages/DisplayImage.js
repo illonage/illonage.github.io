@@ -105,11 +105,14 @@
     worksheet.getSelectedMarksAsync().then(function (marks) {
       // Get the first DataTable for our selected marks (usually there is just one)
       const worksheetData = marks.data[0];
-      var index = 0;
+      var index, indexName = 0;
       for(var i =0; i<worksheetData.columns.length;i++){
 
           if (worksheetData.columns[i].fieldName==fieldName) {
               index = worksheetData.columns[i].index;
+          }
+          else if (worksheetData.columns[i].fieldName=="Product Name") {
+              indexName = worksheetData.columns[i].index;
           }
       }
 
@@ -119,7 +122,7 @@
           return cell.formattedValue;
         });
 
-        return (rowData[index]);
+        return ([rowData[index], rowData[indexName]] );
             
 
         ;
@@ -152,13 +155,12 @@
 
   function displayURL(URL){
     $('#selected_marks').empty();
-    var str = URL+" ";
-    var names = name +" ";
-    var tableNames = names.split(",");
-    var tableImages = str.split(",");
-    for (var i = 0; i < tableImages.length; i++) {
-     const image = $(`<img src="
-      ${tableImages[i]}"width="15%" height="15%">`);
+    console.log(URL);
+    for (var i = 0; i < URL.length; i++) {
+     var str = URL[i][0]+" ";
+     var tableImages = str.split(",");
+     const image = $(`<img style="margin: 20px 20px" src="
+      ${tableImages}"width="25%" height="25%">`);
 
      $('#selected_marks').append(image);
    }
