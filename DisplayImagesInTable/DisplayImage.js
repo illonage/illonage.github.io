@@ -11,13 +11,21 @@
       // This event allows for the parent extension and popup extension to keep their
       // settings in sync.  This event will be triggered any time a setting is
       // changed for this extension, in the parent or popup (i.e. when settings.saveAsync is called).
-     
-
+      let currentSettings = tableau.extensions.settings.getAll();
+      console.log(currentSettings.sheet);
+      if (currentSettings.sheet) {
+        $('#inactive').hide();
+        parseInfo(currentSettings);
+      }
+      
+      //console.log(savedSettingsInfo);
+      //console.log(settingsEvent);
+      
 
       tableau.extensions.settings.addEventListener(tableau.TableauEventType.SettingsChanged, (settingsEvent) => {
-        
-        updateExtensionBasedOnSettings(settingsEvent.newSettings);
-        parseInfo(settingsEvent.newSettings)
+            console.log(settingsEvent);
+            updateExtensionBasedOnSettings(settingsEvent.newSettings);
+            parseInfo(settingsEvent.newSettings);
       });
     });
   });
@@ -36,8 +44,8 @@
         $('#active').show();
 
         // The close payload is returned from the popup extension via the closeDialog method.
-        $('#interval').text(closePayload);
-        setupRefreshInterval(closePayload);
+        updateExtensionBasedOnSettings(settingsEvent.newSettings);
+        parseInfo(settingsEvent.newSettings);
 
     }).catch((error) => {
       //  ... 
@@ -233,7 +241,8 @@
       return ([rowData[indexImage]]);
     });
       // Populate the data table with the rows and columns we just pulled out
-      displayImages(image,columnsData,columnsName);
+      
+        displayImages(image,columnsData,columnsName);
     });
   }
 
