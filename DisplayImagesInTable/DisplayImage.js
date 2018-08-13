@@ -12,26 +12,20 @@
       // settings in sync.  This event will be triggered any time a setting is
       // changed for this extension, in the parent or popup (i.e. when settings.saveAsync is called).
       let currentSettings = tableau.extensions.settings.getAll();
-      console.log(currentSettings.sheet);
+      
       if (typeof currentSettings.sheet !== "undefined") {
-        console.log(currentSettings.sheet);
         $('#inactive').hide();
         if (unregisterEventHandlerFunction) {
           unregisterEventHandlerFunction();
-          console.log('test');
-          updateExtensionBasedOnSettings(currentSettings);
-          
         }
-        parseInfo(currentSettings);
+
         var worksheetsName = currentSettings.sheet;
         const worksheet = getSelectedSheet(worksheetsName);
-        unregisterEventHandlerFunction = worksheet.addEventListener(tableau.TableauEventType.FilterChanged, function (selectionEvent) {
-          
-          updateExtensionBasedOnSettings(currentSettings);
-          parseInfo(currentSettings);
-      });
         
+          updateExtensionBasedOnSettings(currentSettings.newSettings);
+          parseInfo(currentSettings); 
         
+               
       }
       
       //console.log(savedSettingsInfo);
@@ -60,8 +54,7 @@
         $('#active').show();
 
         // The close payload is returned from the popup extension via the closeDialog method.
-        updateExtensionBasedOnSettings(settingsEvent.newSettings);
-        parseInfo(settingsEvent.newSettings);
+        
 
     }).catch((error) => {
       //  ... 
@@ -70,68 +63,7 @@
     });
   }
 
-   function showChooseSheetDialog(){
-    $('#choose_sheet_buttons').empty();
-    const dashboardName = tableau.extensions.dashboardContent.dashboard.name;
-    
-    const textFormat2 = $('<h4><font color="white">Select your sheet with the URL of the image</font></h4>');
-    $('#choose_sheet_buttons').append(textFormat2);
-    const worksheets = tableau.extensions.dashboardContent.dashboard.worksheets;
-    worksheets.forEach(function (worksheet) {
-      // Declare our new button which contains the sheet name
-      const button = createButton(worksheet.name);
 
-      // Create an event handler for when this button is clicked
-      button.click(function () {
-        // Get the worksheet name which was selected
-        const worksheetName = worksheet.name;
-
-        // Close the dialog and show the data table for this worksheet
-        tableau.extensions.settings.saveAsync().then(function () {
-        $('#choose_sheet_dialog').modal('toggle');
-        showChooseSelectionDialog(worksheetName);
-      });
-        
-      });
-
-      // Add our button to the list of worksheets to choose from
-      $('#choose_sheet_buttons').append(button);
-    });
-
-    // Show the dialog
-    $('#choose_sheet_dialog').modal('toggle');
-
-   }
-
-   function showChooseSelectionDialog(worksheetName){
-    const worksheet = getSelectedSheet(worksheetName);
-    const text = "Select the URL of the image to display";
-    const textFormat = $('<h4><font color="white">Select the field that indicated the URL of the image to display</font></h4>');
-    
-    $('#choose_image_buttons').append(textFormat);
-    //$('#choose_image_dialog').text(worksheet.name);
-    worksheet.getSummaryDataAsync().then(function(data) {
-      const columnsTable = data.columns;
-      
-      columnsTable.forEach(function (name) {
-        const button2 = createButton(name.fieldName);
-        button2.click(function () {
-          const fieldName = name.fieldName;
-          tableau.extensions.settings.set('field', fieldName);
-          tableau.extensions.settings.saveAsync().then(function () {
-          $('#choose_image_dialog').modal('toggle');
-          returnURL(worksheetName,fieldName);
-        });
-        
-        });
-
-        $('#choose_image_buttons').append(button2);
-      });
-    });
-    
-    $('#choose_image_dialog').modal('toggle');
-    //returnURL(worksheetName);
-   }
 
 
   function getSelectedSheet (worksheetName) {
@@ -187,13 +119,6 @@
     }
   }
 
-  function createButton (buttonTitle) {
-    const button =
-    $(`<button type='button' class='btn btn-default btn-block'>
-      ${buttonTitle}
-    </button>`);
-    return button;
-  }
 
   // This variable will save off the function we can call to unregister listening to marks-selected events
 
@@ -215,18 +140,19 @@
     if (unregisterEventHandlerFunction) {
       unregisterEventHandlerFunction();
     }
+    //console.log(settings);
     var worksheetsName = settings.sheet;
     const worksheet = getSelectedSheet(worksheetsName);
     unregisterEventHandlerFunction = worksheet.addEventListener(tableau.TableauEventType.FilterChanged, function (selectionEvent) {
-      console.log(savedInfo);
-      parseInfo(savedInfo);
+      console.log(selectionEvent);
+      parseInfo(settings);
     });
     var indexImage = settings.selectedImage[1];
     var cleanIndex = settings.selectedColumns.slice(1, settings.selectedColumns.length - 1);
     var indexColumnstable = cleanIndex.split(",");
     var columnsName = [];
     var columnsData = [];
-     worksheet.getUnderlyingDataAsync().then(function (marks) {      
+    worksheet.getUnderlyingDataAsync().then(function (marks) {      
       const worksheetData = marks;
       
       for (var i = 0; i < indexColumnstable.length; i++) {
