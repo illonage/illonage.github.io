@@ -14,9 +14,22 @@
       let currentSettings = tableau.extensions.settings.getAll();
       console.log(currentSettings.sheet);
       if (currentSettings.sheet) {
-        $('#inactive').hide();
-        updateExtensionBasedOnSettings(currentSettings);
+      $('#inactive').hide();
+        if (unregisterEventHandlerFunction) {
+          unregisterEventHandlerFunction();
+          updateExtensionBasedOnSettings(currentSettings);
+          
+        }
         parseInfo(currentSettings);
+        var worksheetsName = currentSettings.sheet;
+        const worksheet = getSelectedSheet(worksheetsName);
+        unregisterEventHandlerFunction = worksheet.addEventListener(tableau.TableauEventType.FilterChanged, function (selectionEvent) {
+          
+          updateExtensionBasedOnSettings(currentSettings);
+          parseInfo(currentSettings);
+      });
+        
+        
       }
       
       //console.log(savedSettingsInfo);
