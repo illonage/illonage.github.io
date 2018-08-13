@@ -13,7 +13,7 @@
       // changed for this extension, in the parent or popup (i.e. when settings.saveAsync is called).
       let currentSettings = tableau.extensions.settings.getAll();
       console.log(currentSettings.sheet);
-      if (currentSettings.sheet) {
+      if (typeof currentSettings.sheet !== "undefined") {
         console.log(currentSettings.sheet);
         $('#inactive').hide();
         if (unregisterEventHandlerFunction) {
