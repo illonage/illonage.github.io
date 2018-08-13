@@ -210,15 +210,10 @@
   }
 
   function parseInfo(settings){
-    if (unregisterEventHandlerFunction) {
-      unregisterEventHandlerFunction();
-    }
+    
     var worksheetsName = settings.sheet;
     const worksheet = getSelectedSheet(worksheetsName);
-    unregisterEventHandlerFunction = worksheet.addEventListener(tableau.TableauEventType.FilterChanged, function (selectionEvent) {
-      console.log(savedInfo);
-      parseInfo(savedInfo);
-    });
+   
     var indexImage = settings.selectedImage[1];
     var cleanIndex = settings.selectedColumns.slice(1, settings.selectedColumns.length - 1);
     var indexColumnstable = cleanIndex.split(",");
