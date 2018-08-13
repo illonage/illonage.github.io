@@ -14,9 +14,11 @@
       let currentSettings = tableau.extensions.settings.getAll();
       console.log(currentSettings.sheet);
       if (currentSettings.sheet) {
-      $('#inactive').hide();
+        console.log(currentSettings.sheet);
+        $('#inactive').hide();
         if (unregisterEventHandlerFunction) {
           unregisterEventHandlerFunction();
+          console.log('test');
           updateExtensionBasedOnSettings(currentSettings);
           
         }
