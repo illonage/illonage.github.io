@@ -17,7 +17,7 @@
       //getLocation();
       //showImage();
     });
-    
+
     // tableau.extensions.initializeAsync({'configure': configure}).then(function() {     
     //   // This event allows for the parent extension and popup extension to keep their
     //   // settings in sync.  This event will be triggered any time a setting is
@@ -55,7 +55,7 @@
    let unregisterEventHandlerFunction;
 
     function configure() { 
-      const popupUrl = `${window.location.origin}/DisplayImagesInTable/extensionDialog.html`;
+      const popupUrl = `${window.location.origin}/Localisation/extensionDialog.html`;
     
       tableau.extensions.ui.displayDialogAsync(popupUrl, defaultIntervalInMin, { height: 500, width: 500 }).then((closePayload) => {
         $('#inactive').hide();
