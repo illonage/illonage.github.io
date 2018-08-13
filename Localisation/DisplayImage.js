@@ -7,45 +7,37 @@
   // Use the jQuery document ready signal to know when everything has been initialized
   $(document).ready(function () {
     // Tell Tableau we'd like to initialize our extension
-    tableau.extensions.initializeAsync().then(function () {
-      // Once the extensions is initialized, ask the user to choose a sheet
-      const worksheet = getSelectedSheet("Average price vs quantity");
-      unregisterEventHandlerFunction = worksheet.addEventListener(tableau.TableauEventType.FilterChanged, function (selectionEvent) {
-        console.log(selectionEvent);
-        $('#selected_marks').append("test");
-      });
-      //getLocation();
-      //showImage();
-    });
-    
-    // tableau.extensions.initializeAsync({'configure': configure}).then(function() {     
-    //   // This event allows for the parent extension and popup extension to keep their
-    //   // settings in sync.  This event will be triggered any time a setting is
-    //   // changed for this extension, in the parent or popup (i.e. when settings.saveAsync is called).
-    //   let currentSettings = tableau.extensions.settings.getAll();
+    tableau.extensions.initializeAsync({'configure': configure}).then(function() {     
+      // This event allows for the parent extension and popup extension to keep their
+      // settings in sync.  This event will be triggered any time a setting is
+      // changed for this extension, in the parent or popup (i.e. when settings.saveAsync is called).
+      let currentSettings = tableau.extensions.settings.getAll();
       
-    //   if (typeof currentSettings.sheet !== "undefined") {
-    //     $('#inactive').hide();
+      if (typeof currentSettings.sheet !== "undefined") {
+        $('#inactive').hide();
+        if (unregisterEventHandlerFunction) {
+          unregisterEventHandlerFunction();
+        }
 
-    //     var worksheetsName = currentSettings.sheet;
-    //     const worksheet = getSelectedSheet(worksheetsName);
+        var worksheetsName = currentSettings.sheet;
+        const worksheet = getSelectedSheet(worksheetsName);
         
-    //     updateExtensionBasedOnSettings(currentSettings.newSettings);
-    //     parseInfo(currentSettings); 
+          updateExtensionBasedOnSettings(currentSettings.newSettings);
+          parseInfo(currentSettings); 
         
                
-    //   }
+      }
       
-    //   //console.log(savedSettingsInfo);
-    //   //console.log(settingsEvent);
+      //console.log(savedSettingsInfo);
+      //console.log(settingsEvent);
       
 
-    //   tableau.extensions.settings.addEventListener(tableau.TableauEventType.SettingsChanged, (settingsEvent) => {
-    //         console.log(settingsEvent);
-    //         updateExtensionBasedOnSettings(settingsEvent.newSettings);
-    //         parseInfo(settingsEvent.newSettings);
-    //   });
-    // });
+      tableau.extensions.settings.addEventListener(tableau.TableauEventType.SettingsChanged, (settingsEvent) => {
+            console.log(settingsEvent);
+            updateExtensionBasedOnSettings(settingsEvent.newSettings);
+            parseInfo(settingsEvent.newSettings);
+      });
+    });
   });
 
   /**
