@@ -54,8 +54,8 @@
 
   function showChooseSelection(worksheetName){
     const worksheet = getSelectedSheet(worksheetName);
-    let currentSettings = tableau.extensions.settings.getAll();
-    console.log(currentSettings)
+    
+    
     const textFormat = $('<h5>Select the field that indicated the URL of the image to display</h5>');
     const textFormat2 = $('<h5>Select the columns of your table</h5>');
     

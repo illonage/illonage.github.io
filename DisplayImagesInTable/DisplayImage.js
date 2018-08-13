@@ -12,7 +12,7 @@
       // settings in sync.  This event will be triggered any time a setting is
       // changed for this extension, in the parent or popup (i.e. when settings.saveAsync is called).
       let currentSettings = tableau.extensions.settings.getAll();
-      console.log(currentSettings.sheet);
+      //console.log(currentSettings.sheet);
       if (currentSettings.sheet) {
         $('#inactive').hide();
         parseInfo(currentSettings);
