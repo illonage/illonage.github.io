@@ -10,10 +10,7 @@
     tableau.extensions.initializeAsync().then(function () {
       // Once the extensions is initialized, ask the user to choose a sheet
       const worksheet = getSelectedSheet("Average price vs quantity");
-      unregisterEventHandlerFunction = worksheet.addEventListener(tableau.TableauEventType.FilterChanged, function (selectionEvent) {
-        console.log(selectionEvent);
-        $('#selected_marks').append("test");
-      });
+      
       //getLocation();
       //showImage();
     });
