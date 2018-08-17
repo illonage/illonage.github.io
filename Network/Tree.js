@@ -72,16 +72,22 @@ function drawtree(settings){
       let treeD = {};
       let treeData = [];
       var j;
+      var k;
+      console.log(tiers2);
       for (var i = 0; i < tiers1.length; i++) {
         
-        if (i == 0 || j == i) {
+        if (i == 0 || j == i ) {
           //enfants [i] = i;
           enfants = {"name": newArray[i].tiers2, "parent": newArray[i].tiers1}
           enfantsList.push(enfants);
+          
         }
         else if (i == tiers1.length - 1){
-          enfants = {"name": newArray[i].tiers2, "parent": newArray[i].tiers1}
+
+
+          enfants = {"name": newArray[i].tiers2, "parent": newArray[i].tiers1};
           enfantsList.push(enfants);
+          
           family = {"name" : newArray[i].tiers1, "parent" : "root", "children" : enfantsList}
           familyList.push(family);
         }
@@ -94,9 +100,12 @@ function drawtree(settings){
         }
         else 
         {
+
           family = {"name" : newArray[i-1].tiers1, "parent" : "root", "children" : enfantsList}
           familyList.push(family);
           enfantsList = [];
+          enfants = {"name": newArray[i].tiers2, "parent": newArray[i+1].tiers1}
+          enfantsList.push(enfants);
           j = i;          
         }
         console.log(i);
