@@ -76,12 +76,14 @@
       tableHeader = $(`<th><center>${columnsName[i]}</center></th>`);
       $('#selected_marks').append(tableHeader);
     }
-
+    
     for (var i = 0; i < images.length; i++) {
+
       var str = images[i][0]+" ";
       var tableImages = str.split(",");
       const start = $(`<tr>`);
       $('#selected_marks').append(start);
+
       const image = $(`<td><center><img src="
       ${tableImages}"width="150" height="150"></center></td>`);
       $('#selected_marks').append(image);
@@ -132,11 +134,11 @@
     if (unregisterEventHandlerFunction) {
       unregisterEventHandlerFunction();
     }
-    //console.log(settings);
+    
     var worksheetsName = settings.sheet;
     const worksheet = getSelectedSheet(worksheetsName);
     unregisterEventHandlerFunction = worksheet.addEventListener(tableau.TableauEventType.FilterChanged, function (selectionEvent) {
-      console.log(selectionEvent);
+     
       parseInfo(settings);
     });
     var indexImage = settings.selectedImage[1];
@@ -144,7 +146,7 @@
     var indexColumnstable = cleanIndex.split(",");
     var columnsName = [];
     var columnsData = [];
-    worksheet.getUnderlyingDataAsync().then(function (marks) {      
+    worksheet.getSummaryDataAsync().then(function (marks) {      
       const worksheetData = marks;
       
       for (var i = 0; i < indexColumnstable.length; i++) {
@@ -171,6 +173,7 @@
           
 
           return cell.formattedValue;
+
           });
       return ([rowData[indexImage]]);
     });
