@@ -153,6 +153,7 @@
     }
 
     function filterChangedHandler(filterEvent) {    
+        $('#selected_marks').empty(); 
         const settingsSaved = tableau.extensions.settings.getAll();
         getHTML(settingsSaved);
     }
