@@ -47,7 +47,7 @@ function statusChangeCallback(response) {  // Called with the results from FB.ge
     $(document).ready(function() {
       console.log('test');
       var hasAuth = accessToken && accessToken.length > 0;
-      let pageId = await getPageId();
+      let pageId = getPageId();
       console.log(pageId);
       $("#submitButton").click(function() { 
           tableau.connectionName = "Results for Instagram";
