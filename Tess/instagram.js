@@ -1,5 +1,7 @@
 function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
     console.log('statusChangeCallback');
+    var accessToken = response.authResponse.accessToken;
+    console.log(accessToken);
     console.log(response);                   // The current login status of the person.
     if (response.status === 'connected') {   // Logged into your webpage and Facebook.
       testAPI();  
@@ -39,3 +41,27 @@ function statusChangeCallback(response) {  // Called with the results from FB.ge
         'Thanks for logging in, ' + response.name + '!';
     });
   }
+
+  (function(){
+    'use strict';
+    $(document).ready(function() {
+      var hasAuth = accessToken && accessToken.length > 0;
+      let pageId = await getPageId();
+      console.log(pageId);
+      $("#submitButton").click(function() { 
+          tableau.connectionName = "Results for Instagram";
+          tableau.submit();
+      });
+    });
+
+   async function getPageId(){
+     let url = 'https://graph.facebook.com/v8.0/me/accounts?access_token=' + accessToken;
+     try {
+       let res = await fetch(url);
+       return await res.data[0].id;
+     } catch(error){
+       console.log(error);
+     }
+    }
+    
+  })
