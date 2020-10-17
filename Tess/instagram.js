@@ -45,6 +45,7 @@ function statusChangeCallback(response) {  // Called with the results from FB.ge
   (function(){
     'use strict';
     $(document).ready(function() {
+      console.log('test');
       var hasAuth = accessToken && accessToken.length > 0;
       let pageId = await getPageId();
       console.log(pageId);
